@@ -1,66 +1,85 @@
 pragma solidity >=0.8.30;
 
-import {Subcall} from "@oasisprotocol-sapphire-contracts-0.2.14/Subcall.sol";
+
+struct Message {
+    uint128 value;
+    uint block;
+    address sender;
+    bool isAuthorized;
+}
 
 contract Oracle {
-    // Maximum age of observations.
-    uint private constant MAX_OBSERVATION_AGE = 10;
+    bytes21 public roflAppId;
+    
+    Message[] public messages;
 
-    // Configuration.
-    uint8 public threshold;
-    bytes21 public roflAppID;
-
-    // Observations.
-    struct Observation {
-        uint128 value;
-        uint block;
-    }
-    uint128[] private observations;
-    Observation private lastObservation;
-
-    constructor(bytes21 _roflAppID, uint8 _threshold) {
-        require(_threshold > 0, "Invalid threshold");
-
-        roflAppID = _roflAppID;
-        threshold = _threshold;
-        lastObservation.value = 0;
-        lastObservation.block = 0;
+    constructor(bytes21 _roflAppId) {
+        roflAppId = _roflAppId;
+        messages = new Message[](0);
     }
 
-    function submitObservation(uint128 _value) external {
-        // Ensure only the authorized ROFL app can submit.
-        Subcall.roflEnsureAuthorizedOrigin(roflAppID);
+    function submitMessage(uint128 _value) external {
+        messages.push(Message(_value, block.number, msg.sender, true));
+    }
 
-        // NOTE: This is a naive oracle implementation for ROFL example purposes.
-        // A real oracle must do additional checks and better aggregation before
-        // accepting values.
-
-        // Add observation and check if we have enough for this round.
-        observations.push(_value);
-        if (observations.length < threshold) {
-            return;
+    function getLastMessage() external view returns (Message memory) {
+        if (messages.length == 0) {
+            return Message(0, 0, address(0), false);
         }
-
-        // Simple averaging.
-        uint256 _agg = 0;
-        for (uint i = 0; i < observations.length; i++) {
-            _agg += uint256(observations[i]);
-        }
-        _agg = _agg / uint128(observations.length);
-
-        lastObservation.value = uint128(_agg);
-        lastObservation.block = block.number;
-        delete observations;
+        return messages[messages.length - 1];
     }
 
-    function getLastObservation() external view returns (uint128 _value, uint _block) {
-        // Last observation must be fresh enough, otherwise we don't disclose it.
-        require(
-            lastObservation.block + MAX_OBSERVATION_AGE > block.number,
-            "No observation available"
-        );
+    function getMessages() public view returns (Message[] memory) {
+        return messages;
+    }
 
-        _value = lastObservation.value;
-        _block = lastObservation.block;
+    function getMessagesBySender(address _sender) external view returns (Message[] memory) {
+        // First, count how many messages match
+        uint count = 0;
+        for (uint i = 0; i < messages.length; i++) {
+            if (messages[i].sender == _sender) {
+                count++;
+            }
+        }
+        
+        // Create array with correct size
+        Message[] memory _messages = new Message[](count);
+        uint index = 0;
+        for (uint i = 0; i < messages.length; i++) {
+            if (messages[i].sender == _sender) {
+                _messages[index] = messages[i];
+                index++;
+            }
+        }
+        return _messages;
+    }
+
+    function getAuthorizedMessages() public view returns (Message[] memory) {
+        // First, count how many messages are authorized
+        uint count = 0;
+        for (uint i = 0; i < messages.length; i++) {
+            if (messages[i].isAuthorized) {
+                count++;
+            }
+        }
+        
+        // Create array with correct size
+        Message[] memory _messages = new Message[](count);
+        uint index = 0;
+        for (uint i = 0; i < messages.length; i++) {
+            if (messages[i].isAuthorized) {
+                _messages[index] = messages[i];
+                index++;
+            }
+        }
+        return _messages;
+    }
+
+    function numberOfMessages() external view returns (uint) {
+        return messages.length;
+    }
+
+    function numberOfAuthorizedMessages() external view returns (uint) {
+        return getAuthorizedMessages().length;
     }
 }

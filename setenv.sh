@@ -35,6 +35,6 @@ else
 fi
 echo "ROFL_APP_ID set to $ROFL_APP_ID"
 
-TICKER=ROSEUSDT
+RPC_URL="https://testnet.sapphire.oasis.io"
 
-export TICKER
+export RPC_URL

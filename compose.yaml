@@ -1,11 +1,10 @@
 services:
   oracle:
-    image: docker.io/brettfalk/rofl-demo-oracle:latest
+    image: docker.io/brettfalk/rofl-demo-python:latest
     platform: linux/amd64
     environment:
-      # Address of the oracle contract deployed on Sapphire.
+      - ADMIN_KEY=${ADMIN_KEY}
       - CONTRACT_ADDRESS=${CONTRACT_ADDRESS}
-      # Ticker.
-      - TICKER=${TICKER}
+      - RPC_URL=${RPC_URL}
     volumes:
       - /run/rofl-appd.sock:/run/rofl-appd.sock

@@ -37,7 +37,7 @@ OUTPUT=$(forge create src/Oracle.sol:Oracle \
     --rpc-url $RPC_URL \
     --private-key $ADMIN_KEY \
     --chain-id $CHAIN_ID \
-    --constructor-args $RAW_APP_ID 1 2>&1)
+    --constructor-args $RAW_APP_ID 2>&1)
 popd
 
 # Extract the deployed contract address
