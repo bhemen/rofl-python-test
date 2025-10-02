@@ -21,7 +21,7 @@ except Exception as e:
 
 try:
     if rofl is not None:
-        sk, address = rofl.get_keypair()
+        sk, address = rofl.get_keypair("rofl_main.key")
         accounts['rofl'] = Account.from_key(sk)
     else:
         print("Skipping rofl account creation - RoflAppdClient not available")
@@ -44,7 +44,11 @@ except Exception as e:
     print(f"Error creating new account: {e}")
 
 try:
-    accounts['admin'] = Account.from_key(os.getenv("ADMIN_KEY"))
+    admin_key = os.getenv("ADMIN_KEY")
+    if admin_key:
+        accounts['admin'] = Account.from_key(admin_key)
+    else:
+        print("Skipping admin account creation - ADMIN_KEY environment variable not set")
 except Exception as e:
     print(f"Error creating admin account: {e}")
 
@@ -75,7 +79,7 @@ except Exception as e:
     exit(1)
 
 try:
-    with open("Oracle.abi", "r") as f:
+    with open("oracle.abi", "r") as f:
         oracle_abi = json.load(f)
     contract = w3.eth.contract(address=oracle_address, abi=oracle_abi)
 except Exception as e:
@@ -108,8 +112,8 @@ try:
             "nonce": w3.eth.getTransactionCount(accounts['utility'].address),
         })
 
-        rofl_utility.submit_tx(tx)
-        tx_hash = w3.eth.sendRawTransaction(signed_tx.rawTransaction)
+        signed_tx_data = rofl_utility.submit_tx(tx)
+        print(f"utility_tx_501: Transaction submitted via utility")
     else:
         print("Skipping transaction 501 - required components not available")
 except Exception as e:
@@ -121,8 +125,8 @@ try:
             "gasPrice": w3.eth.gas_price,
         })
 
-        rofl_utility.submit_tx(tx)
-        tx_hash = w3.eth.sendRawTransaction(signed_tx.rawTransaction)
+        signed_tx_data = rofl_utility.submit_tx(tx)
+        print(f"utility_tx_502: Transaction submitted via utility")
     else:
         print("Skipping transaction 502 - required components not available")
 except Exception as e:
