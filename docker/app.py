@@ -4,6 +4,9 @@ from eth_account import Account
 from web3 import Web3
 import os
 import json
+import time
+
+time.sleep(60)
 
 accounts = {}
 
