@@ -105,10 +105,10 @@ for i, (name, account) in enumerate(accounts.items()):
             "value": 0,
             "gas": 500000,
             "gasPrice": w3.to_wei("1", "gwei"),
-            "nonce": w3.eth.getTransactionCount(account.address),
+            "nonce": w3.eth.get_transaction_count(account.address),
         })
         signed_tx = account.sign_transaction(tx)
-        tx_hash = w3.eth.sendRawTransaction(signed_tx.rawTransaction)
+        tx_hash = w3.eth.send_raw_transaction(signed_tx.raw_transaction)
         print(f"{name}: {tx_hash.hex()}")
     except Exception as e:
         print(f"Error processing transaction for {name}: {e}")
@@ -121,7 +121,7 @@ try:
             "value": 0,
             "gas": 500000,
             "gasPrice": w3.eth.gas_price,
-            "nonce": w3.eth.getTransactionCount(accounts['utility'].address),
+            "nonce": w3.eth.get_transaction_count(accounts['utility'].address),
         })
 
         signed_tx_data = rofl_utility.submit_tx(tx)
