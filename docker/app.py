@@ -48,21 +48,26 @@ try:
     admin_key = os.getenv("ADMIN_KEY")
     if admin_key:
         accounts['admin'] = Account.from_key(admin_key)
-        print(f"Admin account created: {accounts['admin'].address}")
+        print(f"Admin account found: {accounts['admin'].address}")
     else:
         print("Skipping admin account creation - ADMIN_KEY environment variable not set")
 except Exception as e:
     print(f"Error creating admin account: {e}")
 
 oracle_address = os.getenv("CONTRACT_ADDRESS")
+print(f"CONTRACT_ADDRESS from env: {oracle_address}")
 if not oracle_address:
+    print("ERROR: CONTRACT_ADDRESS environment variable is not set!")
     exit(1)
 
 rpc_url = os.getenv("RPC_URL", "http://localhost:8545")
+print(f"RPC_URL: {rpc_url}")
 
 try:
     w3 = Web3(Web3.HTTPProvider(rpc_url))
+    print(f"Attempting Web3 connection to: {rpc_url}")
     if not w3.is_connected():
+        print(f"Failed to connect to Web3 provider at {rpc_url}")
         if rpc_url != "http://localhost:8545":
             print(f"Failed to connect to RPC provider at {rpc_url}")
             rpc_url = "http://localhost:8545"
@@ -76,14 +81,18 @@ try:
                 exit(1)
         else:
             exit(1)
+    print("Web3 connection successful!")
 except Exception as e:
     print(f"Error setting up Web3 connection: {e}")
     exit(1)
 
 try:
+    print("Loading oracle.abi file...")
     with open("oracle.abi", "r") as f:
         oracle_abi = json.load(f)
+    print(f"Creating contract with address: {oracle_address}")
     contract = w3.eth.contract(address=oracle_address, abi=oracle_abi)
+    print("Contract created successfully!")
 except Exception as e:
     print(f"Error loading ABI or creating contract: {e}")
     exit(1)
