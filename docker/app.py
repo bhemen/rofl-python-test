@@ -81,7 +81,9 @@ try:
                 exit(1)
         else:
             exit(1)
-    print("Web3 connection successful!")
+
+
+print("Web3 connection successful!")
 except Exception as e:
     print(f"Error setting up Web3 connection: {e}")
     exit(1)
@@ -100,7 +102,7 @@ except Exception as e:
 for i, (name, account) in enumerate(accounts.items()):
     print(f"Submitting transaction for {name} from {account.address} to {contract.address}")
     try:
-        tx = contract.functions.submitMessage(i).buildTransaction({
+        tx = contract.functions.submitMessage(i).build_transaction({
             "from": account.address,
             "value": 0,
             "gas": 500000,
@@ -116,7 +118,7 @@ for i, (name, account) in enumerate(accounts.items()):
 
 try:
     if 'utility' in accounts and rofl_utility is not None:
-        tx = contract.functions.submitMessage(501).buildTransaction({
+        tx = contract.functions.submitMessage(501).build_transaction({
             "from": accounts['utility'].address,
             "value": 0,
             "gas": 500000,
@@ -133,7 +135,7 @@ except Exception as e:
 
 try:
     if rofl_utility is not None:
-        tx = contract.functions.submitMessage(502).buildTransaction({
+        tx = contract.functions.submitMessage(502).build_transaction({
             "gasPrice": w3.eth.gas_price,
         })
 
