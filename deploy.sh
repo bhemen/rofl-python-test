@@ -56,3 +56,8 @@ echo "Contract address: $CONTRACT_ADDRESS"
 echo "export CONTRACT_ADDRESS=$CONTRACT_ADDRESS" > deployed_contract.env
 echo "Contract address saved to deployed_contract.env"
 
+# Extract the ABI from Oracle.json and save to docker folder
+echo "Extracting ABI from Oracle contract..."
+jq '.abi' oracle/out/Oracle.sol/Oracle.json > docker/oracle.abi
+echo "Oracle ABI saved to docker/oracle.abi"
+

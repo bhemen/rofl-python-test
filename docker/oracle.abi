@@ -1,0 +1,85 @@
+[
+  {
+    "type": "constructor",
+    "inputs": [
+      {
+        "name": "_roflAppID",
+        "type": "bytes21",
+        "internalType": "bytes21"
+      },
+      {
+        "name": "_threshold",
+        "type": "uint8",
+        "internalType": "uint8"
+      }
+    ],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "getLastObservation",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "_value",
+        "type": "uint128",
+        "internalType": "uint128"
+      },
+      {
+        "name": "_block",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "roflAppID",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "bytes21",
+        "internalType": "bytes21"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "submitObservation",
+    "inputs": [
+      {
+        "name": "_value",
+        "type": "uint128",
+        "internalType": "uint128"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "threshold",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint8",
+        "internalType": "uint8"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "error",
+    "name": "RoflOriginNotAuthorizedForApp",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "SubcallError",
+    "inputs": []
+  }
+]
