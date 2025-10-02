@@ -48,3 +48,5 @@ deployments:
     machines:
       default:
         provider: oasis1qp2ens0hsp7gh23wajxa4hpetkdek3swyyulyrmz
+        offer: playground_short
+        id: "0000000000000305"
