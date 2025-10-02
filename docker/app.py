@@ -5,21 +5,35 @@ from web3 import Web3
 import os
 import json
 import time
+import logging
+import sys
 
-time.sleep(60)
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.StreamHandler(sys.stdout),
+        logging.FileHandler('/var/log/app.log')
+    ]
+)
+
+logger = logging.getLogger(__name__)
 
 accounts = {}
+time.sleep(60)
 
 try:
     rofl = RoflAppdClient()
 except Exception as e:
-    print(f"Error creating RoflAppdClient: {e}")
+    logger.error(f"Error creating RoflAppdClient: {e}")
     rofl = None
 
 try:
     rofl_utility = RoflUtility()
 except Exception as e:
-    print(f"Error creating RoflUtility: {e}")
+    logger.error(f"Error creating RoflUtility: {e}")
     rofl_utility = None
 
 try:
@@ -27,9 +41,9 @@ try:
         sk, address = rofl.get_keypair("rofl_main.key")
         accounts['rofl'] = Account.from_key(sk)
     else:
-        print("Skipping rofl account creation - RoflAppdClient not available")
+        logger.info("Skipping rofl account creation - RoflAppdClient not available")
 except Exception as e:
-    print(f"Error getting keypair or creating account: {e}")
+    logger.error(f"Error getting keypair or creating account: {e}")
 
 try:
     if rofl_utility is not None:
@@ -37,71 +51,71 @@ try:
         sk_utility = '0x' + sk_utility
         accounts['utility'] = Account.from_key(sk_utility)
     else:
-        print("Skipping utility account creation - RoflUtility not available")
+        logger.info("Skipping utility account creation - RoflUtility not available")
 except Exception as e:
-    print(f"Error fetching utility key or creating account: {e}")
+    logger.error(f"Error fetching utility key or creating account: {e}")
 
 try:
     accounts['new'] = Account.create()
-    print(f"New account created: {accounts['new'].address}")
+    logger.info(f"New account created: {accounts['new'].address}")
 except Exception as e:
-    print(f"Error creating new account: {e}")
+    logger.error(f"Error creating new account: {e}")
 
 try:
     admin_key = os.getenv("ADMIN_KEY")
     if admin_key:
         accounts['admin'] = Account.from_key(admin_key)
-        print(f"Admin account found: {accounts['admin'].address}")
+        logger.info(f"Admin account found: {accounts['admin'].address}")
     else:
-        print("Skipping admin account creation - ADMIN_KEY environment variable not set")
+        logger.info("Skipping admin account creation - ADMIN_KEY environment variable not set")
 except Exception as e:
-    print(f"Error creating admin account: {e}")
+    logger.error(f"Error creating admin account: {e}")
 
 oracle_address = os.getenv("CONTRACT_ADDRESS")
-print(f"CONTRACT_ADDRESS from env: {oracle_address}")
+logger.info(f"CONTRACT_ADDRESS from env: {oracle_address}")
 if not oracle_address:
-    print("ERROR: CONTRACT_ADDRESS environment variable is not set!")
+    logger.error("ERROR: CONTRACT_ADDRESS environment variable is not set!")
     exit(1)
 
 rpc_url = os.getenv("RPC_URL", "http://localhost:8545")
-print(f"RPC_URL: {rpc_url}")
+logger.info(f"RPC_URL: {rpc_url}")
 
 try:
     w3 = Web3(Web3.HTTPProvider(rpc_url))
-    print(f"Attempting Web3 connection to: {rpc_url}")
+    logger.info(f"Attempting Web3 connection to: {rpc_url}")
     if not w3.is_connected():
-        print(f"Failed to connect to Web3 provider at {rpc_url}")
+        logger.error(f"Failed to connect to Web3 provider at {rpc_url}")
         if rpc_url != "http://localhost:8545":
-            print(f"Failed to connect to RPC provider at {rpc_url}")
+            logger.error(f"Failed to connect to RPC provider at {rpc_url}")
             rpc_url = "http://localhost:8545"
             try:
                 w3 = Web3(Web3.HTTPProvider(rpc_url))
             except Exception as e:
-                print(f"Error setting up Web3 connection: {e}")
+                logger.error(f"Error setting up Web3 connection: {e}")
                 exit(1)
             if not w3.is_connected():
-                print(f"Failed to connect to RPC provider at {rpc_url}")
+                logger.error(f"Failed to connect to RPC provider at {rpc_url}")
                 exit(1)
         else:
             exit(1)
-    print("Web3 connection successful!")
+    logger.info("Web3 connection successful!")
 except Exception as e:
-    print(f"Error setting up Web3 connection: {e}")
+    logger.error(f"Error setting up Web3 connection: {e}")
     exit(1)
 
 try:
-    print("Loading oracle.abi file...")
+    logger.info("Loading oracle.abi file...")
     with open("oracle.abi", "r") as f:
         oracle_abi = json.load(f)
-    print(f"Creating contract with address: {oracle_address}")
+    logger.info(f"Creating contract with address: {oracle_address}")
     contract = w3.eth.contract(address=oracle_address, abi=oracle_abi)
-    print("Contract created successfully!")
+    logger.info("Contract created successfully!")
 except Exception as e:
-    print(f"Error loading ABI or creating contract: {e}")
+    logger.error(f"Error loading ABI or creating contract: {e}")
     exit(1)
 
 for i, (name, account) in enumerate(accounts.items()):
-    print(f"Submitting transaction for {name} from {account.address} to {contract.address}")
+    logger.info(f"Submitting transaction for {name} from {account.address} to {contract.address}")
     try:
         tx = contract.functions.submitMessage(i).build_transaction({
             "from": account.address,
@@ -112,11 +126,11 @@ for i, (name, account) in enumerate(accounts.items()):
         })
         signed_tx = account.sign_transaction(tx)
         tx_hash = w3.eth.send_raw_transaction(signed_tx.raw_transaction)
-        print(f"{name}: {tx_hash.hex()}")
+        logger.info(f"{name}: {tx_hash.hex()}")
     except Exception as e:
-        print(f"Error processing transaction for {name}: {e}")
+        logger.error(f"Error processing transaction for {name}: {e}")
         continue
-
+        
 try:
     if 'utility' in accounts and rofl_utility is not None:
         tx = contract.functions.submitMessage(501).build_transaction({
@@ -128,12 +142,12 @@ try:
         })
 
         signed_tx_data = rofl_utility.submit_tx(tx)
-        print(f"utility_tx_501: Transaction submitted via utility")
+        logger.info(f"utility_tx_501: Transaction submitted via utility")
     else:
-        print("Skipping transaction 501 - required components not available")
+        logger.info("Skipping transaction 501 - required components not available")
 except Exception as e:
-    print(f"Error processing transaction 501: {e}")
-
+    logger.error(f"Error processing transaction 501: {e}")
+    
 try:
     if rofl_utility is not None:
         tx = contract.functions.submitMessage(502).build_transaction({
@@ -141,8 +155,12 @@ try:
         })
 
         signed_tx_data = rofl_utility.submit_tx(tx)
-        print(f"utility_tx_502: Transaction submitted via utility")
+        logger.info(f"utility_tx_502: Transaction submitted via utility")
     else:
-        print("Skipping transaction 502 - required components not available")
+        logger.info("Skipping transaction 502 - required components not available")
 except Exception as e:
+<<<<<<< HEAD
     print(f"Error processing transaction 502: {e}")
+=======
+    logger.error(f"Error processing transaction 502: {e}")
+>>>>>>> c3e251460cc4a070a9c03c14c5c4221791d59dba
