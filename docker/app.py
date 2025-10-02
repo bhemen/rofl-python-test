@@ -159,8 +159,4 @@ try:
     else:
         logger.info("Skipping transaction 502 - required components not available")
 except Exception as e:
-<<<<<<< HEAD
-    print(f"Error processing transaction 502: {e}")
-=======
     logger.error(f"Error processing transaction 502: {e}")
->>>>>>> c3e251460cc4a070a9c03c14c5c4221791d59dba
