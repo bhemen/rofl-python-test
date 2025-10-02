@@ -40,6 +40,7 @@ except Exception as e:
 
 try:
     accounts['new'] = Account.create()
+    print(f"New account created: {accounts['new'].address}")
 except Exception as e:
     print(f"Error creating new account: {e}")
 
@@ -47,6 +48,7 @@ try:
     admin_key = os.getenv("ADMIN_KEY")
     if admin_key:
         accounts['admin'] = Account.from_key(admin_key)
+        print(f"Admin account created: {accounts['admin'].address}")
     else:
         print("Skipping admin account creation - ADMIN_KEY environment variable not set")
 except Exception as e:
@@ -87,6 +89,7 @@ except Exception as e:
     exit(1)
 
 for i, (name, account) in enumerate(accounts.items()):
+    print(f"Submitting transaction for {name} from {account.address} to {contract.address}")
     try:
         tx = contract.functions.submitMessage(i).buildTransaction({
             "from": account.address,
