@@ -104,7 +104,7 @@ for i, (name, account) in enumerate(accounts.items()):
             "from": account.address,
             "value": 0,
             "gas": 500000,
-            "gasPrice": w3.toWei("1", "gwei"),
+            "gasPrice": w3.to_wei("1", "gwei"),
             "nonce": w3.eth.getTransactionCount(account.address),
         })
         signed_tx = account.sign_transaction(tx)
