@@ -81,9 +81,7 @@ try:
                 exit(1)
         else:
             exit(1)
-
-
-print("Web3 connection successful!")
+    print("Web3 connection successful!")
 except Exception as e:
     print(f"Error setting up Web3 connection: {e}")
     exit(1)
