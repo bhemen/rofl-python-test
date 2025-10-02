@@ -29,8 +29,6 @@ if [ ! -f "deployed_contract.env" ]; then
     fi
 fi
 
-exit 0
-
 # Set the secrets
 source setenv.sh
 if [ -z "$ADMIN_KEY" ]; then

@@ -15,7 +15,6 @@ contract Oracle {
 
     constructor(bytes21 _roflAppId) {
         roflAppId = _roflAppId;
-        messages = new Message[](0);
     }
 
     function submitMessage(uint128 _value) external {

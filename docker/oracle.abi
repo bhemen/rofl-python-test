@@ -3,30 +3,200 @@
     "type": "constructor",
     "inputs": [
       {
-        "name": "_roflAppID",
+        "name": "_roflAppId",
         "type": "bytes21",
         "internalType": "bytes21"
-      },
-      {
-        "name": "_threshold",
-        "type": "uint8",
-        "internalType": "uint8"
       }
     ],
     "stateMutability": "nonpayable"
   },
   {
     "type": "function",
-    "name": "getLastObservation",
+    "name": "getAuthorizedMessages",
     "inputs": [],
     "outputs": [
       {
-        "name": "_value",
+        "name": "",
+        "type": "tuple[]",
+        "internalType": "struct Message[]",
+        "components": [
+          {
+            "name": "value",
+            "type": "uint128",
+            "internalType": "uint128"
+          },
+          {
+            "name": "block",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "sender",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "isAuthorized",
+            "type": "bool",
+            "internalType": "bool"
+          }
+        ]
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getLastMessage",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "tuple",
+        "internalType": "struct Message",
+        "components": [
+          {
+            "name": "value",
+            "type": "uint128",
+            "internalType": "uint128"
+          },
+          {
+            "name": "block",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "sender",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "isAuthorized",
+            "type": "bool",
+            "internalType": "bool"
+          }
+        ]
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getMessages",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "tuple[]",
+        "internalType": "struct Message[]",
+        "components": [
+          {
+            "name": "value",
+            "type": "uint128",
+            "internalType": "uint128"
+          },
+          {
+            "name": "block",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "sender",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "isAuthorized",
+            "type": "bool",
+            "internalType": "bool"
+          }
+        ]
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getMessagesBySender",
+    "inputs": [
+      {
+        "name": "_sender",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "tuple[]",
+        "internalType": "struct Message[]",
+        "components": [
+          {
+            "name": "value",
+            "type": "uint128",
+            "internalType": "uint128"
+          },
+          {
+            "name": "block",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "sender",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "isAuthorized",
+            "type": "bool",
+            "internalType": "bool"
+          }
+        ]
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "messages",
+    "inputs": [
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "value",
         "type": "uint128",
         "internalType": "uint128"
       },
       {
-        "name": "_block",
+        "name": "block",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "sender",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "isAuthorized",
+        "type": "bool",
+        "internalType": "bool"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "numberOfAuthorizedMessages",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
         "type": "uint256",
         "internalType": "uint256"
       }
@@ -35,7 +205,20 @@
   },
   {
     "type": "function",
-    "name": "roflAppID",
+    "name": "numberOfMessages",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "roflAppId",
     "inputs": [],
     "outputs": [
       {
@@ -48,7 +231,7 @@
   },
   {
     "type": "function",
-    "name": "submitObservation",
+    "name": "submitMessage",
     "inputs": [
       {
         "name": "_value",
@@ -58,28 +241,5 @@
     ],
     "outputs": [],
     "stateMutability": "nonpayable"
-  },
-  {
-    "type": "function",
-    "name": "threshold",
-    "inputs": [],
-    "outputs": [
-      {
-        "name": "",
-        "type": "uint8",
-        "internalType": "uint8"
-      }
-    ],
-    "stateMutability": "view"
-  },
-  {
-    "type": "error",
-    "name": "RoflOriginNotAuthorizedForApp",
-    "inputs": []
-  },
-  {
-    "type": "error",
-    "name": "SubcallError",
-    "inputs": []
   }
 ]
