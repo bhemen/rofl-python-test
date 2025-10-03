@@ -41,9 +41,9 @@ The steps above should only be run once.
 The steps below should be run at each update.
 
 1. Run `source setenv.sh` (This will set the `ROFL_APP_ID` environment variable, as well as `ADMIN_KEY` and `CONTRACT_ADDRESS` if available)
-2. Run `./deploy.sh`.
-  - This will use [rofl_encode.py](rofl_encode.py) to convert the `ROFL_APP_ID` to bytes, and deploy the oracle contract
-  - The ROFL app ID is needed as a constructor argument for the oracle, so the oracle must be deployed *after* we have the ROFL app ID
-3. Run `./rofl_setup.sh`
-  - This will recompile the docker container, push it to dockerhub, update the ROFL manifest on chain and deploy the ROFL node
-  - This must be done *after* deploying the contracts, because we pass the contract address as an environment variable to the ROFL node
+1. Run `./deploy.sh`.
+    - This will use [rofl_encode.py](rofl_encode.py) to convert the `ROFL_APP_ID` to bytes, and deploy the oracle contract
+    - The ROFL app ID is needed as a constructor argument for the oracle, so the oracle must be deployed *after* we have the ROFL app ID
+1. Run `./rofl_setup.sh`
+    - This will recompile the docker container, push it to dockerhub, update the ROFL manifest on chain and deploy the ROFL node
+    - This must be done *after* deploying the contracts, because we pass the contract address as an environment variable to the ROFL node
