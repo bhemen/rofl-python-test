@@ -1,6 +1,12 @@
 #!/bin/bash
 
-ADMIN_KEY=$(python3 -c "
+DOCKER_FQDN="docker.io/brettfalk/rofl-demo-python:latest"
+export DOCKER_FQDN
+
+echo "DOCKER_FQDN set to $DOCKER_FQDN"
+
+if [ -f "sapphire_accounts.json" ]; then
+    ADMIN_KEY=$(python3 -c "
 import json
 with open('sapphire_accounts.json', 'r') as f:
     accounts = json.load(f)
@@ -10,7 +16,11 @@ for account in accounts:
         break
 ")
 
-export ADMIN_KEY
+    export ADMIN_KEY
+else
+    echo "sapphire_accounts.json does not exist."
+    echo "Create a json file of the form [ { "label": "admin", "secret_key": <hex>, "address": <hex> } ]"
+fi
 
 if [ -f 'rofl.yaml' ]; then
     ROFL_APP_ID=$(grep -A 20 "deployments:" rofl.yaml | grep -A 10 "default:" | grep "app_id:" | awk '{print $2}')
@@ -26,7 +36,6 @@ fi
 #echo "ADMIN_KEY set to $ADMIN_KEY"
 if [ -z "$ADMIN_KEY" ]; then
     echo "ADMIN_KEY is not set"
-    exit 1
 else
     echo "ADMIN_KEY set"
 fi
@@ -38,8 +47,9 @@ export RPC_URL
 if [ -f "deployed_contract.env" ]; then
     source deployed_contract.env
     if [ -z "$CONTRACT_ADDRESS" ]; then
-        echo "CONTRACT_ADDRESS is not set"
-        exit 1
+        echo "deployed_contract.env is empty"
+        echo "Run:"
+        echo "./deploy.sh"
     else
         echo "CONTRACT_ADDRESS set to $CONTRACT_ADDRESS"
     fi

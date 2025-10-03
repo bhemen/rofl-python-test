@@ -32,8 +32,9 @@ fi
 # Set the secrets
 source setenv.sh
 if [ -z "$ADMIN_KEY" ]; then
-    echo "ADMIN_KEY is not set"
-    exit 1
+    echo "WARNING: ADMIN_KEY is not set"
+    echo "This probably means sapphire_accounts.json does not exist."
+    echo "Create a json file of the form [ { "label": "admin", "secret_key": <hex>, "address": <hex> } ]"
 fi
 if [ -z "$CONTRACT_ADDRESS" ]; then
     echo "CONTRACT_ADDRESS is not set"
@@ -44,13 +45,21 @@ if [ -z "$RPC_URL" ]; then
     exit 1
 fi
 
+if [ -z $DOCKER_FQDN ]; then
+    echo "DOCKER_FQDN is not set"
+    exit 1
+fi
+
 # Build the docker image and push it to the registry
 pushd docker
-docker build -t brettfalk/rofl-demo-python:latest .
-docker push brettfalk/rofl-demo-python:latest
+docker build -t $DOCKER_FQDN .
+docker push $DOCKER_FQDN
 popd
 
 docker compose build
+
+# Generate compose.yaml from template with DOCKER_FQDN substituted
+envsubst '$DOCKER_FQDN' < compose.yaml.template > compose.yaml
 
 # ROFL Commands
 
@@ -70,11 +79,13 @@ oasis rofl update # This is an on-chain transaction so it requires a signature
 
 oasis rofl deploy # This is an on-chain transaction so it requires a signature
 
+#It takes a while for the ROFL machines to boot / update
 sleep 20
 
 oasis rofl machine show > rofl_machine.txt
 
 # Extract and display the proxy domain
+# See https://docs.oasis.io/build/rofl/features/proxy for information about ROFL proxies
 PROXY_DOMAIN=$(oasis rofl machine show | grep -A1 "Proxy:" | grep "Domain:" | awk '{print $2}')
 echo "Proxy domain: $PROXY_DOMAIN"
 
