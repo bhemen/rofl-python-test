@@ -3,6 +3,8 @@
 DOCKER_FQDN="docker.io/brettfalk/rofl-demo-python:latest"
 export DOCKER_FQDN
 
+echo "DOCKER_FQDN set to $DOCKER_FQDN"
+
 if [ -f "sapphire_accounts.json" ]; then
     ADMIN_KEY=$(python3 -c "
 import json
