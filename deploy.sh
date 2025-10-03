@@ -61,4 +61,5 @@ echo "Extracting ABI from Oracle contract..."
 jq '.abi' oracle/out/Oracle.sol/Oracle.json > docker/oracle.abi
 echo "Oracle ABI saved to docker/oracle.abi"
 
+# https://docs.oasis.io/build/tools/verification#verification-with-foundry
 forge verify-contract $CONTRACT_ADDRESS --chain-id $CHAIN_ID src/Oracle.sol:Oracle --verifier sourcify
