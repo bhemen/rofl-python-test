@@ -1,3 +1,12 @@
+"""
+    This script tests multiple methods for sending transactions to the oracle contract on chain
+    It expects the environment variables:
+        ADMIN_KEY
+        CONTRACT_ADDRESS
+        RPC_URL (falls back to http://localhost:8545 which should be available on ROFL nodes)
+"""
+
+
 from rofl import RoflAppdClient
 from RoflUtility import RoflUtility
 from eth_account import Account
@@ -52,6 +61,7 @@ except Exception as e:
     logger.error(f"Error fetching utility key or creating account: {e}")
 
 try:
+    #Note, we expect transactions from the 'new' key to fail, since this key has no funds to pay for gas fees
     accounts['new'] = Account.create()
     logger.info(f"New account created: {accounts['new'].address}")
 except Exception as e:

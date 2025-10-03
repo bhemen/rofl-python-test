@@ -2,9 +2,11 @@
 
 This repository takes code from the Oasis ROFL demos:
 
-1. [Oasis Demo](https://github.com/oasisprotocol/demo-rofl) deploys an Oracle contract on chain, that listens for price updates from a shell script running inside a ROFL node.  We don't take any code directly from this repository, 
-    but it is useful because it is the simplest example of how ROFL should work.  We also use an [oracle contract](oracle/src/Oracle.sol), but we have modified our oracle so that it will accept submissions from ROFL as well as other addresses.
+1. [Oasis Demo](https://github.com/oasisprotocol/demo-rofl) deploys an Oracle contract on chain, that listens for price updates from a shell script running inside a ROFL node.
+    - We don't take any code directly from this repository, but it is useful because it is the simplest example of how ROFL should work.  
+    - We also use an [oracle contract](oracle/src/Oracle.sol), but we have modified our oracle so that it will accept submissions from ROFL as well as other addresses.
 1. [Oasis HyperLiquid Copy Trader](https://github.com/oasisprotocol/template-rofl-hl-copy-trader) provides a [rofl client library](https://github.com/oasisprotocol/template-rofl-hl-copy-trader/blob/master/src/clients/rofl.py) in python that we test (see [rofl.py](docker/rofl.py))
+    - note this library is also used in [wt3](https://github.com/oasisprotocol/wt3/tree/master/src/wt3/clients)
 1. [Oasis ROFL Chatbot](https://github.com/oasisprotocol/demo-rofl-chatbot) provides a similar [rofl client library](https://github.com/oasisprotocol/demo-rofl-chatbot/blob/main/oracle/src/RoflUtility.py) in python that we test (see [RoflUtility.py](docker/RoflUtility.py))
 
 The main changes are
