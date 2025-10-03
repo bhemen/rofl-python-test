@@ -58,6 +58,9 @@ popd
 
 docker compose build
 
+# Generate compose.yaml from template with DOCKER_FQDN substituted
+envsubst '$DOCKER_FQDN' < compose.yaml.template > compose.yaml
+
 # ROFL Commands
 
 # https://docs.oasis.io/build/rofl/quickstart/

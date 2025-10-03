@@ -1,17 +1,18 @@
 #!/bin/bash
 
 DOCKER_FQDN="docker.io/brettfalk/rofl-demo-python:latest"
+export DOCKER_FQDN
 
 if [ -f "sapphire_accounts.json" ]; then
     ADMIN_KEY=$(python3 -c "
-    import json
-    with open('sapphire_accounts.json', 'r') as f:
-        accounts = json.load(f)
-    for account in accounts:
-        if account['label'] == 'admin':
-            print(account['secret_key'])
-            break
-    ")
+import json
+with open('sapphire_accounts.json', 'r') as f:
+    accounts = json.load(f)
+for account in accounts:
+    if account['label'] == 'admin':
+        print(account['secret_key'])
+        break
+")
 
     export ADMIN_KEY
 else
@@ -33,7 +34,6 @@ fi
 #echo "ADMIN_KEY set to $ADMIN_KEY"
 if [ -z "$ADMIN_KEY" ]; then
     echo "ADMIN_KEY is not set"
-    exit 1
 else
     echo "ADMIN_KEY set"
 fi
@@ -45,8 +45,9 @@ export RPC_URL
 if [ -f "deployed_contract.env" ]; then
     source deployed_contract.env
     if [ -z "$CONTRACT_ADDRESS" ]; then
-        echo "CONTRACT_ADDRESS is not set"
-        exit 1
+        echo "deployed_contract.env is empty"
+        echo "Run:"
+        echo "./deploy.sh"
     else
         echo "CONTRACT_ADDRESS set to $CONTRACT_ADDRESS"
     fi
