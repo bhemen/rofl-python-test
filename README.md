@@ -49,8 +49,8 @@ The main changes are
 
 1. Make sure you have docker installed
 1. Set the `DOCKER_FQDN` variable in [setenv.sh](setenv.sh)
-    - This will the location where the ROFL node gets its image
-    - This is used in [compose.yaml](compose.yaml)
+    - This will be the location where the ROFL node gets its image
+    - This is used in [compose.yaml.template](compose.yaml.template)
     - The image is built in [rofl_setup.sh](rofl_setup.sh)
 
 ## (Redeploy) ROFL instance
