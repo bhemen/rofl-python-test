@@ -1,5 +1,7 @@
 #!/bin/bash
 
+DOCKER_FQDN="docker.io/brettfalk/rofl-demo-python:latest"
+
 ADMIN_KEY=$(python3 -c "
 import json
 with open('sapphire_accounts.json', 'r') as f:

@@ -1,6 +1,6 @@
 services:
   oracle:
-    image: docker.io/brettfalk/rofl-demo-python:latest
+    image: ${DOCKER_FQDN}
     platform: linux/amd64
     environment:
       - ADMIN_KEY=${ADMIN_KEY}

@@ -16,34 +16,46 @@ The main changes are
 ## Wallet setup
 
 1. Install oasis CLI with `brew install oasis` (on a Mac)
-2. Create a wallet `oasis wallet create <ACCT_NAME>` 
+1. Create a wallet `oasis wallet create <ACCT_NAME>` 
     - If you need to do something else (e.g. import an existing wallet, read the [Oasis CLI Documentation](https://docs.oasis.io/build/tools/cli/wallet#create))
-3. Fund your wallet at the [faucet](https://faucet.testnet.oasis.dev/) (Make sure you select the sapphire network)
+1. Fund your wallet at the [faucet](https://faucet.testnet.oasis.dev/) (Make sure you select the sapphire network)
     - This is the wallet that will be used to deploy the ROFL nodes
 
 ## ROFL Initialization
 
 1. Run `oasis rofl init` to initialize the ROFL
-2. Run `oasis rofl create --network testnet --account <ACCT_NAME>` 
-  - This is important because this will generate the rofl app id
+1. Run `oasis rofl create --network testnet --account <ACCT_NAME>` 
+    - This is important because this will generate the rofl app id, which must be passed to the contract constructor.
 
 ## Install foundry and install sapphire contracts
 1. Install foundry `curl -L https://foundry.paradigm.xyz | bash` 
     - Documentation [here](https://getfoundry.sh/introduction/installation/)
-2. Run `forge init --force --no-git oracle` to set up the oracle folder as a Foundry project
-3. Run `forge soldeer init`
-4. Run `forge soldeer install @oasisprotocol-sapphire-contracts~0.2.14` 
+1. Run `forge init --force --no-git oracle` to set up the oracle folder as a Foundry project
+1. Run `forge soldeer init`
+1. Run `forge soldeer install @oasisprotocol-sapphire-contracts~0.2.14` 
     - See [Oasis Foundry docs](https://docs.oasis.io/build/tools/foundry/)
+
+## Deploy the oracle contract
+
+1. Run `source setenv.sh`
+    - This will set the `ROFL_APP_ID` environment variable, which will be used for deploying the oracle contract
+1. Run `./deploy.sh`.
+    - This will use [rofl_encode.py](rofl_encode.py) to convert the `ROFL_APP_ID` to bytes, and deploy the oracle contract
+    - The ROFL app ID is needed as a constructor argument for the oracle, so the oracle must be deployed *after* we have the ROFL app ID
+
+## Docker
+
+1. Make sure you have docker installed
+1. Set the `DOCKER_FQDN` variable in [setenv.sh](setenv.sh)
+    - This will the location where the ROFL node gets its image
+    - This is used in [compose.yaml](compose.yaml)
+    - The image is built in [rofl_setup.sh](rofl_setup.sh)
 
 ## (Redeploy) ROFL instance
 
 The steps above should only be run once.
 The steps below should be run at each update.
 
-1. Run `source setenv.sh` (This will set the `ROFL_APP_ID` environment variable, as well as `ADMIN_KEY` and `CONTRACT_ADDRESS` if available)
-1. Run `./deploy.sh`.
-    - This will use [rofl_encode.py](rofl_encode.py) to convert the `ROFL_APP_ID` to bytes, and deploy the oracle contract
-    - The ROFL app ID is needed as a constructor argument for the oracle, so the oracle must be deployed *after* we have the ROFL app ID
 1. Run `./rofl_setup.sh`
     - This will recompile the docker container, push it to dockerhub, update the ROFL manifest on chain and deploy the ROFL node
     - This must be done *after* deploying the contracts, because we pass the contract address as an environment variable to the ROFL node
