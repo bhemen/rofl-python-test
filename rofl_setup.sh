@@ -32,8 +32,9 @@ fi
 # Set the secrets
 source setenv.sh
 if [ -z "$ADMIN_KEY" ]; then
-    echo "ADMIN_KEY is not set"
-    exit 1
+    echo "WARNING: ADMIN_KEY is not set"
+    echo "This probably means sapphire_accounts.json does not exist."
+    echo "Create a json file of the form [ { "label": "admin", "secret_key": <hex>, "address": <hex> } ]"
 fi
 if [ -z "$CONTRACT_ADDRESS" ]; then
     echo "CONTRACT_ADDRESS is not set"

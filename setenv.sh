@@ -2,17 +2,22 @@
 
 DOCKER_FQDN="docker.io/brettfalk/rofl-demo-python:latest"
 
-ADMIN_KEY=$(python3 -c "
-import json
-with open('sapphire_accounts.json', 'r') as f:
-    accounts = json.load(f)
-for account in accounts:
-    if account['label'] == 'admin':
-        print(account['secret_key'])
-        break
-")
+if [ -f "sapphire_accounts.json" ]; then
+    ADMIN_KEY=$(python3 -c "
+    import json
+    with open('sapphire_accounts.json', 'r') as f:
+        accounts = json.load(f)
+    for account in accounts:
+        if account['label'] == 'admin':
+            print(account['secret_key'])
+            break
+    ")
 
-export ADMIN_KEY
+    export ADMIN_KEY
+else
+    echo "sapphire_accounts.json does not exist."
+    echo "Create a json file of the form [ { "label": "admin", "secret_key": <hex>, "address": <hex> } ]"
+fi
 
 if [ -f 'rofl.yaml' ]; then
     ROFL_APP_ID=$(grep -A 20 "deployments:" rofl.yaml | grep -A 10 "default:" | grep "app_id:" | awk '{print $2}')
