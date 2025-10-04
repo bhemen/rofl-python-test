@@ -37,6 +37,8 @@ OUTPUT=$(forge create src/Oracle.sol:Oracle \
     --rpc-url $RPC_URL \
     --private-key $ADMIN_KEY \
     --chain-id $CHAIN_ID \
+    --verify \
+    --verifier sourcify \
     --constructor-args $RAW_APP_ID 2>&1)
 popd
 

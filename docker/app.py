@@ -4,6 +4,13 @@
         ADMIN_KEY
         CONTRACT_ADDRESS
         RPC_URL (falls back to http://localhost:8545 which should be available on ROFL nodes)
+    
+    This script tries to send transactions to the Oracle contract in 5 ways:
+    1. Using /rofl-appd.sock provided by rofl.py
+    2. Using /rofl-appd.sock provided by RoflUtility.py
+    3. Using the admin key passed as an environment variable
+    4. Generating a new key and using that (but this should fail since the key has no funds to pay for gas fees)
+    5. Using the submit_tx method from RoflUtility.py (this signs and sends the transaction, as opposed to the previous 4 methods which use eth_account to sign the transaction and web3 to send the transaction)
 """
 
 
