@@ -10,7 +10,7 @@ WORKDIR /app
 
 RUN uv venv
 RUN uv init
-RUN uv add web3 eth-account httpx
+RUN uv add web3 eth-account httpx cbor2
 
 COPY app.py .
 COPY oracle.abi .

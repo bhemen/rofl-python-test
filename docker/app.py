@@ -160,6 +160,11 @@ try:
 
         signed_tx_data = rofl_utility.submit_tx(tx)
         logger.info(f"utility_tx_501: Transaction submitted via utility")
+        logger.info(f"utility_tx_501: {signed_tx_data}")
+        if 'ok' in signed_tx_data:
+            logger.info(f"utility_tx_501: Transaction submitted via utility")
+        else:
+            logger.error(f"utility_tx_501: Transaction failed via utility")
     else:
         logger.info("Skipping transaction 501 - required components not available")
 except Exception as e:
@@ -173,6 +178,11 @@ try:
 
         signed_tx_data = rofl_utility.submit_tx(tx)
         logger.info(f"utility_tx_502: Transaction submitted via utility")
+        logger.info(f"utility_tx_502: {signed_tx_data}")
+        if 'ok' in signed_tx_data:
+            logger.info(f"utility_tx_502: Transaction submitted via utility")
+        else:
+            logger.error(f"utility_tx_502: Transaction failed via utility")
     else:
         logger.info("Skipping transaction 502 - required components not available")
 except Exception as e:

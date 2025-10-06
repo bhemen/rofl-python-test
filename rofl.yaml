@@ -17,14 +17,14 @@ artifacts:
     compose: compose.yaml
 deployments:
   default:
-    app_id: rofl1qpap49cju7kc44eg5cz7ulz9t07xeyhcdyr76nt8
+    app_id: rofl1qzvvrlhsxhkjqhfzerd9pwfll3qgetu4jsdapat7
     network: testnet
     paratime: sapphire
     admin: rofldeployer
-    oci_repository: rofl.sh/c778d223-f70f-4431-b229-3a2260a9941b:1759406411
+    oci_repository: rofl.sh/f3ce107a-e3c8-4130-837c-46b6c4fad6e4:1759775295
     trust_root:
-      height: 28682783
-      hash: 17015e17d181ccd92cf73540fbb462d60587a192d99e6bcfc12bdef263446524
+      height: 28747287
+      hash: a35d430d2f12017b09dc6b609465113c36cfbe4308373da89b1ee9157c6f0f37
     policy:
       quotes:
         pcs:
@@ -32,21 +32,21 @@ deployments:
           min_tcb_evaluation_data_number: 18
           tdx: {}
       enclaves:
-        - id: MkA5c7ywC3Jj7mThfRhRpVERPS4Jl4uQwywKBMnZj6QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==
-        - id: rNJe2ZxB12ZehqNM2EjC0pzRRnNhLCYJHPKb2iTOb0UAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==
+        - id: ltWYDpHYAY2JbyK1CXu43240N87/3H3DVvbcG2Ruq9MAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==
+        - id: hV82NlUJOARTeraAPHWSeVjovd/RC4ouUUoYaO+hHZ0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==
       endorsements:
         - any: {}
       fees: endorsing_node
       max_expiration: 3
     secrets:
       - name: CONTRACT_ADDRESS
-        value: pGJwa1ggNglfbZmC3oc7R2gp53tKzdhvKy7HROnNHeABttcezE1kbmFtZVggAj9Y9+ZPHDoDmkut28R7DNj+0guNC2/QI5uT5a8NkMtlbm9uY2VPRfKmKT6h/B5+ALDTTK6iZXZhbHVlWDo28RDV4gGa/aU35aNCs+kIYciqfD5CAxOlnhWSrWFMtlxHoLirUwtzs9ur2PgTEEzJ1Xh7pjgGF7eX
+        value: pGJwa1ggZhG05xk7l9bsJo/Qfc8zkXUDn1FXiRsePPwHHnLiz3xkbmFtZVggzFIVXdfUsHsvYBK0Xm2rzP53Iuor9PXXKI96+5SqD6plbm9uY2VPYdg7ZO9NGKxulVTyecEsZXZhbHVlWDrJ2ZIYTqs3lDSfN2XdmlzDO/iSwyQavEXJN+dUtWNewor9mZHMLK4ltMmcdLu9TimELrCg7BlX/YNp
       - name: ADMIN_KEY
-        value: pGJwa1gg2zY+wlZ+LmQdsCxO0BWBfGbJ6N4dkz2KWI6OjKIDXWhkbmFtZVgZGV5QjeYndLxS3QOrsmRbp5Zv1iiWpq+LvmVub25jZU8GFuMPYUOXQq7Hyt6tWCBldmFsdWVYUEVBHBrH7YlTQYa7LtfICkt7TTBdPfZGgrEDshr9KXWycV1Cau3xLmOfEV7pI0MyKRKe8ykFqnl5EYapNobOsK9Y+kK21QjxuWb4HSXzqjmH
+        value: pGJwa1gg4ZmYC4hdowHAW125pN5F2tZupzQeX2HUZzWhXntQKSZkbmFtZVgZcpPKvYBn9SVbUQsNgwtbbXv7wGnX2rbbAWVub25jZU8NvrcM7RZIBdY3/LYRq55ldmFsdWVYUG7vt6u52SExXTUGNcmsQT6wAhvsMSlo0vQQc0SJDcSI4eNnumIO6n/jF5iXpKYn+pYV2h3RwXOQmubINPAmfC95ZoOLvMuUomuImCEmgg9g
       - name: RPC_URL
-        value: pGJwa1gg6enQ1HakD1Dc9CP/LY6bnR4u45QNamTXXrkvmnLehXZkbmFtZVfRXwEqZdB2bqVa+07+3Zox/DgznC1gnWVub25jZU9gJ92HoprYIumJ2YdULMdldmFsdWVYMSDDDFdRhMrgLyXZxWvBAekCgNt6gGwdlP/4OAtoB89Pw0c2t2fYkpWUuOkHXqXIYsQ=
+        value: pGJwa1ggqZtueRtx2Xe2kq0O5+LcrN019mkMxSBFLmNZKxqnXzdkbmFtZVdM+jFlZTPPG0GXjlfEwAWsBwCojtJ432Vub25jZU9TlTqDBYp3H2pER2SlU/RldmFsdWVYMXQ+doiJ3N2qsdcjOIGWUvAj6PEtDZC6PKyzp5dc3xSMd7DqdP0VdMvrYe0YMiGjxmw=
     machines:
       default:
         provider: oasis1qp2ens0hsp7gh23wajxa4hpetkdek3swyyulyrmz
         offer: playground_short
-        id: 000000000000031e
+        id: "0000000000000320"

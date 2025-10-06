@@ -2,6 +2,7 @@
 import httpx
 import json
 import typing
+import cbor2
 from web3.types import TxParams
 
 
@@ -39,7 +40,7 @@ class RoflUtility:
         response = self._appd_post(path, payload)
         return response["key"]
 
-    def submit_tx(self, tx: TxParams) -> str:
+    def submit_tx(self, tx: TxParams) -> dict:
         payload = {
             "tx": {
                 "kind": "eth",
@@ -55,4 +56,50 @@ class RoflUtility:
 
         path = '/rofl/v1/tx/sign-submit'
 
-        return self._appd_post(path, payload)["data"]
+        response = self._appd_post(path, payload)
+        
+        # Check if the response contains CBOR data to deserialize
+        if "data" in response and response["data"]:
+            return deserialize_response(response)
+        else:
+            # Return the raw response if no CBOR data (e.g., for error cases)
+            return response
+
+def deserialize_response(response: dict) -> dict:
+    """
+    Deserialize a CBOR-encoded hex string response from the ROFL API.
+    
+    Args:
+        response (dict): The response dictionary containing a 'data' field with CBOR-encoded hex string
+        
+    Returns:
+        dict: The deserialized CBOR data as a Python dictionary
+        
+    Example:
+        # Successful call result
+        response = {"data": "a1626f6b40"}
+        result = deserialize_response(response)
+        # Returns: {"ok": ""}
+        
+        # Failed call result  
+        response = {"data": "a1646661696ca364636f646508666d6f64756c656365766d676d6573736167657272657665727465643a20614a416f4c773d3d"}
+        result = deserialize_response(response)
+        # Returns: {"fail": {"code": 8, "module": "evm", "message": "reverted: aJAoLw=="}}
+    """
+    if "data" not in response:
+        raise ValueError("Response must contain a 'data' field")
+    
+    response_hex = response["data"]
+    
+    # Convert hex string to bytes
+    try:
+        cbor_bytes = bytes.fromhex(response_hex)
+    except ValueError as e:
+        raise ValueError(f"Invalid hex string in response data: {e}")
+    
+    # Deserialize CBOR data
+    try:
+        deserialized_data = cbor2.loads(cbor_bytes)
+        return deserialized_data
+    except Exception as e:
+        raise ValueError(f"Failed to deserialize CBOR data: {e}")
