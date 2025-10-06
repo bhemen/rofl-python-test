@@ -52,8 +52,7 @@ fi
 
 # Build the docker image and push it to the registry
 pushd docker
-docker build -t $DOCKER_FQDN .
-docker push $DOCKER_FQDN
+docker buildx build --platform linux/amd64,linux/arm64 --push -t $DOCKER_FQDN .
 popd
 
 docker compose build

@@ -40,13 +40,13 @@ deployments:
       max_expiration: 3
     secrets:
       - name: CONTRACT_ADDRESS
-        value: pGJwa1ggFJ+3yorYn61HeFD16Z2lDkjD0wn85rlYawz/+DDmNjlkbmFtZVggTsClysaF/1tx45fXwjvSZCXbMkJIFnf9jbQXYPeAlKNlbm9uY2VPtecTcvKtJQmGQDZyUAIyZXZhbHVlWDqLDN7Dt3Qnkd2xF7rDXvcokqzdSE1dMu328y0G6Q6/HRVdAPb8IYYWigUx2H4gIsXPqqDb7jpJfuwV
+        value: pGJwa1ggNglfbZmC3oc7R2gp53tKzdhvKy7HROnNHeABttcezE1kbmFtZVggAj9Y9+ZPHDoDmkut28R7DNj+0guNC2/QI5uT5a8NkMtlbm9uY2VPRfKmKT6h/B5+ALDTTK6iZXZhbHVlWDo28RDV4gGa/aU35aNCs+kIYciqfD5CAxOlnhWSrWFMtlxHoLirUwtzs9ur2PgTEEzJ1Xh7pjgGF7eX
       - name: ADMIN_KEY
-        value: pGJwa1gg95SyBXawVr0x+wc1K5BE84rg0YVIjtUy7F2cOegpTxhkbmFtZVgZoCXobkjZ+scQR0Cn1WD2glAkwZyAI01Kd2Vub25jZU+BTXAkqXG3hMmSofe3f5RldmFsdWVYUOJzRlA9QoLPA9kLkJZU3Zf/rqFPCb//SPzSw/q6SW7W8UnAXIiSeZ4woAUbF297VLURsa5znIArMkuVdxx6Ji4huxKaH1gxeGa30FSOH4Un
+        value: pGJwa1gg2zY+wlZ+LmQdsCxO0BWBfGbJ6N4dkz2KWI6OjKIDXWhkbmFtZVgZGV5QjeYndLxS3QOrsmRbp5Zv1iiWpq+LvmVub25jZU8GFuMPYUOXQq7Hyt6tWCBldmFsdWVYUEVBHBrH7YlTQYa7LtfICkt7TTBdPfZGgrEDshr9KXWycV1Cau3xLmOfEV7pI0MyKRKe8ykFqnl5EYapNobOsK9Y+kK21QjxuWb4HSXzqjmH
       - name: RPC_URL
-        value: pGJwa1ggjYgfpg9bFt2mVwDIBthKidA/9jyM0RMEvbksnRSdkhhkbmFtZVctha5UGFCEwxidDvrcWHkZioBmR94WeWVub25jZU/60K/VpYzYE0NLGV0KWJVldmFsdWVYMf2oP5omiMWn1ukj2TQzbyVIbOu5nLu/655jc4OZfG2z5AxsvODqa9MCpVE2LZRZko8=
+        value: pGJwa1gg6enQ1HakD1Dc9CP/LY6bnR4u45QNamTXXrkvmnLehXZkbmFtZVfRXwEqZdB2bqVa+07+3Zox/DgznC1gnWVub25jZU9gJ92HoprYIumJ2YdULMdldmFsdWVYMSDDDFdRhMrgLyXZxWvBAekCgNt6gGwdlP/4OAtoB89Pw0c2t2fYkpWUuOkHXqXIYsQ=
     machines:
       default:
         provider: oasis1qp2ens0hsp7gh23wajxa4hpetkdek3swyyulyrmz
         offer: playground_short
-        id: 000000000000030c
+        id: 000000000000031e
