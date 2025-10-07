@@ -52,6 +52,13 @@ fi
 
 # Build the docker image and push it to the registry
 pushd docker
+# Check if builder exists (exit code 0 if exists, non-zero if not)
+if docker buildx inspect mybuilder >/dev/null 2>&1; then
+  echo "Builder already exists"
+else
+  echo "Creating builder..."
+  docker buildx create --name mybuilder --use --bootstrap
+fi
 docker buildx build --platform linux/amd64,linux/arm64 --push -t $DOCKER_FQDN .
 popd
 
